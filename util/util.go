@@ -119,6 +119,10 @@ func ReadFilePacketUDP(writer *net.UDPConn) (msg *UDPMessage, err error) {
 // file name must be specified before call
 // timeouts may occur depending on file size being read
 func ReadFileUDP(reader *net.UDPConn, fileName string) (file *os.File, n int, addr *net.UDPAddr, err error) {
+	// TODO: check if having a continues readMessage thread pushing messages into channels
+	// 	this would allow for checking of sqc number prior to handling of data in early stages
+	// 	this would also account for the loss of ack packets/already handled packets being resent
+
 	// verify filename does not include path
 	fileName = filepath.Base(fileName)
 	// set timeout deadline to 10 seconds
@@ -944,11 +948,11 @@ func WriteBinary(writer io.Writer, filePath string) (int, error) {
 // *can take up to 15 seconds to execute if timeout occurs
 func ReadAckUDP(seqNum uint32, writer *net.UDPConn, address *net.UDPAddr, packet []byte) (ack bool) {
 	buffer := make([]byte, 4)
-	if err := writer.SetReadDeadline(time.Now().Add(5 * time.Second)); err != nil {
-		return false
-	}
 	timeoutCount := 0
 	for timeoutCount < 3 {
+		if err := writer.SetReadDeadline(time.Now().Add(10 * time.Second)); err != nil {
+			return false
+		}
 		if _, _, err := writer.ReadFromUDP(buffer); err != nil {
 			timeoutCount += 1
 			if _, err = writer.WriteTo(packet, address); err != nil {
