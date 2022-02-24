@@ -52,7 +52,7 @@ func Debug(msg ...interface{}) {
 
 // Debug logs only if LoggingMode is set to DEBUG
 func (logger *Logger) Debug(msg ...interface{}) {
-	if mode <= DEBUG {
+	if logger.mode <= DEBUG {
 		_ = logger.log.Output(2, "DEBUG:\t"+fmt.Sprint(msg...))
 	}
 }
@@ -66,7 +66,7 @@ func Debugf(format string, msg ...interface{}) {
 
 // Debugf logs if LoggingMode is set to DEBUG or lower
 func (logger *Logger) Debugf(format string, msg ...interface{}) {
-	if mode <= DEBUG {
+	if logger.mode <= DEBUG {
 		_ = logger.log.Output(2, "DEBUG:\t"+fmt.Sprintf(format, msg...))
 	}
 }
@@ -80,7 +80,7 @@ func Info(msg ...interface{}) {
 
 // Info logs if LoggingMode is set to INFO or lower
 func (logger *Logger) Info(msg ...interface{}) {
-	if mode <= INFO {
+	if logger.mode <= INFO {
 		_ = logger.log.Output(2, "INFO:\t"+fmt.Sprint(msg...))
 	}
 }
@@ -94,7 +94,7 @@ func Infof(format string, msg ...interface{}) {
 
 // Infof logs if LoggingMode is set to INFO or lower
 func (logger *Logger) Infof(format string, msg ...interface{}) {
-	if mode <= INFO {
+	if logger.mode <= INFO {
 		_ = logger.log.Output(2, "INFO:\t"+fmt.Sprintf(format, msg...))
 	}
 }
@@ -108,7 +108,7 @@ func Warning(msg ...interface{}) {
 
 // Warning logs if LoggingMode is set to WARNING or lower
 func (logger *Logger) Warning(msg ...interface{}) {
-	if mode <= WARNING {
+	if logger.mode <= WARNING {
 		_ = logger.log.Output(2, "WARNING:\t"+fmt.Sprint(msg...))
 	}
 }
@@ -122,7 +122,7 @@ func Warningf(format string, msg ...interface{}) {
 
 // Warningf logs if LoggingMode is set to WARNING or lower
 func (logger *Logger) Warningf(format string, msg ...interface{}) {
-	if mode <= WARNING {
+	if logger.mode <= WARNING {
 		_ = logger.log.Output(2, "WARNING:\t"+fmt.Sprintf(format, msg...))
 	}
 }
@@ -136,7 +136,7 @@ func Error(msg ...interface{}) {
 
 // Error logs if LoggingMode is set to ERROR or lower
 func (logger *Logger) Error(msg ...interface{}) {
-	if mode <= ERROR {
+	if logger.mode <= ERROR {
 		_ = logger.log.Output(2, "ERROR:\t"+fmt.Sprint(msg...))
 	}
 }
@@ -150,7 +150,7 @@ func Errorf(format string, msg ...interface{}) {
 
 // Errorf logs if LoggingMode is set to ERROR or lower
 func (logger *Logger) Errorf(format string, msg ...interface{}) {
-	if mode <= ERROR {
+	if logger.mode <= ERROR {
 		_ = logger.log.Output(2, "Error:\t"+fmt.Sprintf(format, msg...))
 	}
 }
